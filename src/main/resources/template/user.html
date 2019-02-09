@@ -108,12 +108,67 @@
                                 </td>
                                 <td>
                                     <p>例：1990/01/01</p>
-                                    <div class="field" th:classappend="${errors.hasError('dateOfBirth')} ? 'error'">
-                                        <input type="text" name="dateOfBirth" th:value="${form.dateOfBirth}"/>
-                                        <p th:if="${errors.hasError('dateOfBirth')}"
-                                           th:text="${errors.getMessage('dateOfBirth')}" class="error-message">
-                                        </p>
-                                    </div>
+                                    <!DOCTYPE html>
+                                    <html lang="ja">
+                                    <head>
+                                        <meta charset="UTF-8">
+                                        <title>年月日表示の練習</title>
+                                    </head>
+                                    <body>
+                                    <select name="year" id="id_year">
+                                    </select>
+                                    <select name="month" id="id_month">
+                                    </select>
+                                    <select name="day" id="id_day">
+                                    </select>
+                                    <script>
+(function() {
+  'use strict';
+
+  /*
+    今日の日付データを変数todayに格納
+   */
+  var optionLoop, this_day, this_month, this_year, today;
+  today = new Date();
+  this_year = today.getFullYear();
+  this_month = today.getMonth() + 1;
+  this_day = today.getDate();
+
+  /*
+    ループ処理（スタート数字、終了数字、表示id名、デフォルト数字）
+   */
+  optionLoop = function(start, end, id, this_day) {
+    var i, opt;
+
+    opt = null;
+    for (i = start; i <= end ; i++) {
+      if (i === this_day) {
+        opt += "<option value='" + i + "' selected>" + i + "</option>";
+      } else {
+        opt += "<option value='" + i + "'>" + i + "</option>";
+      }
+    }
+    return document.getElementById(id).innerHTML = opt;
+  };
+
+
+  /*
+    関数設定（スタート数字[必須]、終了数字[必須]、表示id名[省略可能]、デフォルト数字[省略可能]）
+   */
+  optionLoop(1900, this_year, 'id_year', this_year);
+  optionLoop(1, 12, 'id_month', 1);
+  optionLoop(1, 31, 'id_day', 1);
+})();
+
+</script>
+                                    </body>
+                                    </html>
+                                    <!--<div class="field" th:classappend="${errors.hasError('dateOfBirth')} ? 'error'">-->
+                                        <!--<input type="text" name="dateOfBirth" th:value="${form.dateOfBirth}"/>-->
+                                        <!--<p th:if="${errors.hasError('dateOfBirth')}"-->
+                                           <!--th:text="${errors.getMessage('dateOfBirth')}" class="error-message">-->
+                                        <!--</p>-->
+                                    <!--</div>-->
                                 </td>
                             </tr>
                             <tr>
@@ -122,9 +177,10 @@
                                     <p style="color:red;">＊</p>
                                 </td>
                                 <td>
-                                    <p>例：123-4567</p>
+                                    <p>例：1234567</p>
+                                    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
                                     <div class="field" th:classappend="${errors.hasError('zipCode')} ? 'error'">
-                                        <input type="text" class="zipcode" name="zipCode" th:value="${form.zipCode}"/>
+                                        <input type="text" class="zipcode" name="zipCode" th:value="${form.zipCode}" onKeyUp="AjaxZip3.zip2addr(this,'','address','address');"/>
                                         <p th:if="${errors.hasError('zipCode')}"
                                            th:text="${errors.getMessage('zipCode')}" class="error-message">
                                         </p>
@@ -152,7 +208,7 @@
                                     <p style="color:red;">＊</p>
                                 </td>
                                 <td>
-                                    <p>例：00-1111-2222</p>
+                                    <p>例：0011112222</p>
                                     <div class="field" th:classappend="${errors.hasError('homePhoneNumber')} ? 'error'">
                                         <input type="text" name="homePhoneNumber" th:value="${form.homePhoneNumber}"/>
                                         <p th:if="${errors.hasError('homePhoneNumber')}"
@@ -167,7 +223,7 @@
                                     <p style="color:red;">＊</p>
                                 </td>
                                 <td>
-                                    <p>例：080-0000-0000</p>
+                                    <p>例：08000000000</p>
                                     <div class="field"
                                          th:classappend="${errors.hasError('mobilePhoneNumber')} ? 'error'">
                                         <input type="text" name="mobilePhoneNumber"
