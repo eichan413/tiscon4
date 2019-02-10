@@ -38,6 +38,9 @@
                         <table class="ui celled table">
                             <tbody>
                             <tr>
+                                <!--<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>-->
+                                <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+                                <script th:src="@{/js/jquery.autoKana.js}"></script>
                                 <td>
                                     <label>お名前（漢字）</label>
                                     <p style="color:red;">＊</p>
@@ -45,7 +48,7 @@
                                 <td>
                                     <p>例：ＴＩＳ　太郎</p>
                                     <div class="field" th:classappend="${errors.hasError('kanjiName')} ? 'error'">
-                                        <input type="text" name="kanjiName" th:value="${form.kanjiName}"/>
+                                        <input type="text" name="kanjiName" id="kanjiName" th:value="${form.kanjiName}"/>
                                         <p th:if="${errors.hasError('kanjiName')}"
                                            th:text="${errors.getMessage('kanjiName')}" class="error-message">
                                         </p>
@@ -60,11 +63,19 @@
                                 <td>
                                     <p>例：ティーアイエス　タロウ</p>
                                     <div class="field" th:classappend="${errors.hasError('kanaName')} ? 'error'">
-                                        <input type="text" name="kanaName" th:value="${form.kanaName}"/>
+                                        <input type="text" name="kanaName" id="kanaName" th:value="${form.kanaName}"/>
                                         <p th:if="${errors.hasError('kanaName')}"
                                            th:text="${errors.getMessage('kanaName')}" class="error-message">
                                         </p>
                                     </div>
+                                    <script type="text/javascript">
+                                            $(document).ready(
+                                                function() {
+                                                    $.fn.autoKana('#kanjiName', '#kanaName', {
+                                                        katakana : true
+                                                });
+                                            });
+                                    </script>
                                 </td>
                             </tr>
                             <tr>
@@ -107,7 +118,7 @@
                                     <p style="color:red;">＊</p>
                                 </td>
                                 <td>
-                                    <p>例：1990/01/01</p>
+                                    <p>例：1990/1/1</p>
                                     <!DOCTYPE html>
                                     <html lang="ja">
                                     <head>
@@ -115,52 +126,50 @@
                                         <title>年月日表示の練習</title>
                                     </head>
                                     <body>
-                                    <select name="year" id="id_year">
-                                    </select>
-                                    <select name="month" id="id_month">
-                                    </select>
-                                    <select name="day" id="id_day">
-                                    </select>
+                                    <table><tr><td style="border-style: none;">
+                                        <select name="year" id="id_year" style="width: 100px">
+                                        </select>
+                                    </td><td style="border-style: none;">
+                                        <select name="month" id="id_month" style="width: 100px">
+                                        </select>
+                                    </td><td style="border-style: none;">
+                                        <select name="day" id="id_day" style="width: 100px">
+                                        </select>
+                                    </td></tr></table>
                                     <script>
-(function() {
-  'use strict';
-
-  /*
-    今日の日付データを変数todayに格納
-   */
-  var optionLoop, this_day, this_month, this_year, today;
-  today = new Date();
-  this_year = today.getFullYear();
-  this_month = today.getMonth() + 1;
-  this_day = today.getDate();
-
-  /*
-    ループ処理（スタート数字、終了数字、表示id名、デフォルト数字）
-   */
-  optionLoop = function(start, end, id, this_day) {
-    var i, opt;
-
-    opt = null;
-    for (i = start; i <= end ; i++) {
-      if (i === this_day) {
-        opt += "<option value='" + i + "' selected>" + i + "</option>";
-      } else {
-        opt += "<option value='" + i + "'>" + i + "</option>";
-      }
-    }
-    return document.getElementById(id).innerHTML = opt;
-  };
-
-
-  /*
-    関数設定（スタート数字[必須]、終了数字[必須]、表示id名[省略可能]、デフォルト数字[省略可能]）
-   */
-  optionLoop(1900, this_year, 'id_year', this_year);
-  optionLoop(1, 12, 'id_month', 1);
-  optionLoop(1, 31, 'id_day', 1);
-})();
-
-</script>
+                                        (function() {
+                                          'use strict';
+                                          /*
+                                            今日の日付データを変数todayに格納
+                                           */
+                                          var optionLoop, this_day, this_month, this_year, today;
+                                          today = new Date();
+                                          this_year = today.getFullYear();
+                                          this_month = today.getMonth() + 1;
+                                          this_day = today.getDate();
+                                          /*
+                                            ループ処理（スタート数字、終了数字、表示id名、デフォルト数字）
+                                           */
+                                          optionLoop = function(start, end, id, this_day) {
+                                            var i, opt;
+                                            opt = null;
+                                            for (i = start; i <= end ; i++) {
+                                              if (i === this_day) {
+                                                opt += "<option value='" + i + "' selected>" + i + "</option>";
+                                              } else {
+                                                opt += "<option value='" + i + "'>" + i + "</option>";
+                                              }
+                                            }
+                                            return document.getElementById(id).innerHTML = opt;
+                                          };
+                                          /*
+                                            関数設定（スタート数字[必須]、終了数字[必須]、表示id名[省略可能]、デフォルト数字[省略可能]）
+                                           */
+                                          optionLoop(1900, this_year, 'id_year', this_year);
+                                          optionLoop(1, 12, 'id_month', 1);
+                                          optionLoop(1, 31, 'id_day', 1);
+                                        })();
+                                        </script>
                                     </body>
                                     </html>
                                     <!--<div class="field" th:classappend="${errors.hasError('dateOfBirth')} ? 'error'">-->
@@ -178,7 +187,8 @@
                                 </td>
                                 <td>
                                     <p>例：1234567</p>
-                                    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+                                    <!--<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>-->
+                                    <script th:src="@{/js/ajaxzip3.js}"></script>
                                     <div class="field" th:classappend="${errors.hasError('zipCode')} ? 'error'">
                                         <input type="text" class="zipcode" name="zipCode" th:value="${form.zipCode}" onKeyUp="AjaxZip3.zip2addr(this,'','address','address');"/>
                                         <p th:if="${errors.hasError('zipCode')}"

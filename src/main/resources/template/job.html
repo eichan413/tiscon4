@@ -58,9 +58,10 @@
                                     <label>お勤め先郵便番号（半角）</label>
                                 </td>
                                 <td>
-                                    <p>例：123-4567</p>
+                                    <p>例：1234567</p>
+                                    <script th:src="@{/js/ajaxzip3.js}"></script>
                                     <div class="field" th:classappend="${errors.hasError('employerZipCode')} ? 'error'">
-                                        <input type="text" name="employerZipCode" th:value="${form.employerZipCode}"/>
+                                        <input type="text" name="employerZipCode" th:value="${form.employerZipCode}" onKeyUp="AjaxZip3.zip2addr(this,'','employerAddress','employerAddress');"/>
                                         <p th:if="${errors.hasError('employerZipCode')}"
                                            th:text="${errors.getMessage('employerZipCode')}" class="error-message">
                                         </p>
@@ -86,7 +87,7 @@
                                     <label>お勤め先電話番号（半角）</label>
                                 </td>
                                 <td>
-                                    <p>例：00-1111-2222</p>
+                                    <p>例：0011112222</p>
                                     <div class="field"
                                          th:classappend="${errors.hasError('employerPhoneNumber')} ? 'error'">
                                         <input type="text" name="employerPhoneNumber"
