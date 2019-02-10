@@ -191,6 +191,7 @@
                                 </td>
                                 <td>
                                     <p>例：1234567</p>
+                                    <script th:src="@{/js/ajaxzip3.js}"></script>
                                     <div class="field" th:classappend="${errors.hasError('zipCode')} ? 'error'">
                                         <input type="text" class="zipcode" name="zipCode" th:value="${form.zipCode}" onKeyUp="AjaxZip3.zip2addr(this,'','address','address');"/>
                                         <p th:if="${errors.hasError('zipCode')}"
